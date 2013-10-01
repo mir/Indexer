@@ -1,11 +1,12 @@
 package ru.maratyv.indexer.index;
 
-import ru.maratyv.indexer.index.Index;
+import ru.maratyv.indexer.Posting;
 import ru.maratyv.indexer.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,21 +16,34 @@ import java.util.List;
  * Porsche is the only car
  */
 public class HashMapIndex implements Index {
-    private HashMap<String,List<Integer>> storage = new HashMap<String,List<Integer>>();
+    private HashMap<String,List<Posting>> storage = new HashMap<String,List<Posting>>();
 
     @Override
     public void add(Token token) {
-        if (storage.containsKey(token.word)) {
-            storage.get(token.word).add(token.position);
+        if (storage.containsKey(token.term)) {
+            List<Posting> postings = storage.get(token.term);
+            if (toAddPosting(postings,token.docID)) {
+                postings.add(new Posting(token.docID));
+            }
         } else {
-            List<Integer> positions = new ArrayList<Integer>();
-            positions.add(token.position);
-            storage.put(token.word,positions);
+            List<Posting> postings = new ArrayList<Posting>();
+            postings.add(new Posting(token.docID));
+            storage.put(token.term,postings);
         }
     }
 
+    private boolean toAddPosting(List<Posting> postings, String docID) {
+        for (Posting posting:postings) {
+            if (posting.docID.equals(docID)) {
+                posting.incrementFrequency();
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
-    public List<Integer> get(String word) {
-        return storage.get(word);
+    public List<Posting> get(String term) {
+        return storage.get(term);
     }
 }

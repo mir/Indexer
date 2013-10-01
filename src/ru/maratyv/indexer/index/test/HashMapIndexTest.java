@@ -26,17 +26,25 @@ public class HashMapIndexTest {
 
     @Test
     public void testTwoTokens() throws Exception {
-        index.add(new Token(1,"Hello"));
-        index.add(new Token(7, "world"));
-        index.add(new Token(13,"world"));
-        index.add(new Token(18,"!"));
-        assertThat(index.get("world"),hasItems(7,13));
+        index.add(new Token("1","hello"));
+        index.add(new Token("1","hello"));
+        index.add(new Token("1","hello"));
+        index.add(new Token("2","hello"));
+        index.add(new Token("1", "world"));
+        index.add(new Token("1", "world"));
+        index.add(new Token("2","world"));
+        index.add(new Token("3","world"));
+        index.add(new Token("1","bla"));
+        index.add(new Token("3","bla"));
+        assertEquals(3,index.get("world").size());
+        assertEquals(2,index.get("hello").size());
+        assertEquals(2,index.get("bla").size());
     }
 
     @Test
     public void testNoElements(){
-        assertNull(index.get("Any word"));
-        index.add(new Token(1,"Hello"));
+        assertNull(index.get("Any term"));
+        index.add(new Token("1","Hello"));
         assertNull(index.get(""));
     }
 }

@@ -8,36 +8,17 @@ package ru.maratyv.indexer;
  * Porsche is the only car
  */
 public class Token {
-    public final int position;
-    public final String word;
+    public final String docID;
+    public final String term;
 
-    public Token(int position, String word) {
-        this.position = position;
-        this.word = word;
+    public Token(String docID, String term) {
+        this.docID = docID;
+        this.term = term;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Token token = (Token) o;
-
-        if (position != token.position) return false;
-        if (!word.equals(token.word)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = position;
-        result = 31 * result + word.hashCode();
-        return result;
-    }
 
     @Override
     public String toString() {
-        return word + ":" + position;
+        return term + ":" + docID;
     }
 }

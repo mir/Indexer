@@ -1,5 +1,6 @@
 package ru.maratyv.indexer.tokenizers.test;
 
+import ru.maratyv.indexer.Posting;
 import ru.maratyv.indexer.Token;
 import ru.maratyv.indexer.index.Index;
 
@@ -20,11 +21,11 @@ public class StringIndex implements Index {
         if (sb.length() != 0) {
             sb.append(" ");
         }
-        sb.append(token.word + ":" + token.position);
+        sb.append(token.term + ":" + token.docID);
     }
 
     @Override
-    public List<Integer> get(String word) {
+    public List<Posting> get(String word) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

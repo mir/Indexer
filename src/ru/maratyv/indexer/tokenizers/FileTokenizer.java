@@ -16,35 +16,22 @@ import java.util.Scanner;
 public class FileTokenizer implements Tokenizer{
 
     private BufferedReader bf;
+    private final String docID;
+    private final String DELIMITER_PATTERN = "\\W+";
 
-    public FileTokenizer(File inputFile) throws FileNotFoundException {
+    public FileTokenizer(File inputFile) throws IOException {
+        docID = inputFile.getName();
         bf = new BufferedReader(new FileReader(inputFile));
     }
 
     public void addTokensTo(Index index) throws IOException {
         String currentLine = bf.readLine();
-        int offset = 0;
         try {
             while (currentLine != null) {
-                StringBuilder word = new StringBuilder("");
-                for (int i = 0; i < currentLine.length(); i++) {
-                    char c = currentLine.charAt(i);
-                    if (Character.isLetterOrDigit(c)) {
-                        word.append(c);
-                    } else {
-                        if (word.length() != 0) {
-                            Token token = new Token(offset + i - word.length(),
-                                                    word.toString().toLowerCase());
-                            index.add(token);
-                            word = new StringBuilder("");
-                        }
-                    }
-                }
-                offset += currentLine.length();
-                // last word in line
-                if (word.length() != 0) {
-                    Token token = new Token(offset - word.length(),
-                            word.toString());
+                Scanner sc = new Scanner(currentLine);
+                sc.useDelimiter(DELIMITER_PATTERN);
+                while (sc.hasNext()) {
+                    Token token = new Token(docID,sc.next().toLowerCase());
                     index.add(token);
                 }
                 currentLine = bf.readLine();

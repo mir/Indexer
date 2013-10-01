@@ -1,5 +1,6 @@
 package ru.maratyv.indexer.tokenizers.test;
 
+import ru.maratyv.indexer.Posting;
 import ru.maratyv.indexer.Token;
 import ru.maratyv.indexer.index.Index;
 
@@ -23,13 +24,13 @@ public class WordCounterIndex implements Index {
 
     @Override
     public void add(Token token) {
-        if (wordToCount.equals(token.word)) {
+        if (wordToCount.equals(token.term)) {
             count++;
         }
     }
 
     @Override
-    public List<Integer> get(String word) {
+    public List<Posting> get(String word) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

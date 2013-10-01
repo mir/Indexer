@@ -20,15 +20,20 @@ public class FileIndexer implements Indexer {
 
     private Index index = new HashMapIndex();
 
-    public FileIndexer(File inputFile) throws IOException {
-        FileTokenizer ft = new FileTokenizer(inputFile);
-        ft.addTokensTo(index);
+    public FileIndexer(File inputFile) throws IOException, DerictoryIsNotSpecified {
+        if (!inputFile.isDirectory()) {
+            throw new DerictoryIsNotSpecified();
+        }
+        for (File file:inputFile.listFiles()) {
+            FileTokenizer ft = new FileTokenizer(file);
+            ft.addTokensTo(index);
+        }
     }
 
-    public List<Integer> find(String word) {
-        if (word == null) return new ArrayList<Integer>(0);
-        List<Integer> found = index.get(word.toLowerCase());
-        if (found == null) found = new ArrayList<Integer>(0);
+    public List<Posting> find(String term) {
+        if (term == null) return new ArrayList<Posting>(0);
+        List<Posting> found = index.get(term.toLowerCase());
+        if (found == null) found = new ArrayList<Posting>(0);
         return found;
     }
 }

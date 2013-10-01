@@ -1,5 +1,6 @@
 package ru.maratyv.indexer.index;
 
+import ru.maratyv.indexer.Posting;
 import ru.maratyv.indexer.Token;
 
 import java.util.List;
@@ -13,5 +14,5 @@ import java.util.List;
  */
 public interface Index {
     public void add(Token token);
-    public List<Integer> get(String word);
+    public List<Posting> get(String word);
 }

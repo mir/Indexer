@@ -10,5 +10,5 @@ import java.util.List;
  * Porsche is the only car
  */
 public interface Indexer {
-    public List<Integer> find(String word);
+    public List<Posting> find(String word);
 }
