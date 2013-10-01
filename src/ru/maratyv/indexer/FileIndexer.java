@@ -6,6 +6,7 @@ import ru.maratyv.indexer.tokenizers.FileTokenizer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,9 @@ public class FileIndexer implements Indexer {
     }
 
     public List<Integer> find(String word) {
-        return index.get(word);
+        if (word == null) return new ArrayList<Integer>(0);
+        List<Integer> found = index.get(word.toLowerCase());
+        if (found == null) found = new ArrayList<Integer>(0);
+        return found;
     }
 }
