@@ -1,17 +1,16 @@
-package ru.maratyv.indexer.TestTokenizer;
+package ru.maratyv.indexer.tokenizers.test;
 
-import junit.framework.*;
-import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.maratyv.indexer.FileTokenizer;
-import ru.maratyv.indexer.PatternStringTokenizer;
+import ru.maratyv.indexer.index.Index;
+import ru.maratyv.indexer.tokenizers.FileTokenizer;
+import ru.maratyv.indexer.tokenizers.Tokenizer;
 
 import java.io.*;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -35,24 +34,23 @@ public class FileTokenizerTest {
 
     @Test
     public void loremTest() throws IOException {
-        (new FileTokenizer(LOREM_FILE)).tokenizeTo(TEMP_OUTPUT_FILE);
-        assertEquals(TEMP_OUTPUT_FILE.length(),LOREM_OUTPUT_FILE.length());
+        Tokenizer tokenizer = new FileTokenizer(LOREM_FILE);
+        Index index = new WordCounterIndex("lorem");
+        tokenizer.addTokensTo(index);
+        assertEquals("4", index.toString());
     }
 
     @Test
     public void lowCaseTest() throws IOException {
         // create test file
-        File inputFile = new File("trivialTestFile.txt");
-        String testString = "Some test string";
-        Writer writer = (new FileWriter(inputFile)).append(testString);
+        String testString = "0 2 4";
+        Writer writer = (new FileWriter(TEMP_OUTPUT_FILE)).append(testString);
         writer.close();
         //tokenize
-        (new FileTokenizer(inputFile)).tokenizeTo(TEMP_OUTPUT_FILE);
-        //read from tokenized file
-        BufferedReader br = new BufferedReader(new FileReader(TEMP_OUTPUT_FILE));
-        String actual = br.readLine();
-        br.close();
+        Tokenizer tokenizer = new FileTokenizer(TEMP_OUTPUT_FILE);
+        StringIndex stringIndex = new StringIndex();
+        tokenizer.addTokensTo(stringIndex);
         //test
-        assertEquals(testString.toLowerCase(),actual);
+        assertEquals("0:0 2:2 4:4", stringIndex.toString());
     }
 }

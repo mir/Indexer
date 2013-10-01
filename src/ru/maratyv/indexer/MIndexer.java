@@ -1,8 +1,11 @@
 package ru.maratyv.indexer;
 
+import ru.maratyv.indexer.index.HashMapIndex;
+import ru.maratyv.indexer.index.Index;
+import ru.maratyv.indexer.tokenizers.FileTokenizer;
+
 import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,15 +15,16 @@ import java.util.List;
  * Time: 4:33 PM
  * Porsche is the only car
  */
-public class MIndexer implements Indexer{
+public class MIndexer implements Indexer {
 
-    private File inputFile;
+    private Index index = new HashMapIndex();
 
-    public MIndexer(File inputFile) {
-        inputFile = inputFile;
+    public MIndexer(File inputFile) throws IOException {
+        FileTokenizer ft = new FileTokenizer(inputFile);
+        ft.addTokensTo(index);
     }
 
     public List<Integer> find(String word) {
-        return new ArrayList<Integer>(0);
+        return index.get(word);
     }
 }

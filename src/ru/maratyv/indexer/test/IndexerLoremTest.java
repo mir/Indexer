@@ -1,4 +1,4 @@
-package ru.maratyv.indexer.TestMindexer;
+package ru.maratyv.indexer.test;
 
 import static org.junit.Assert.assertEquals;
 
