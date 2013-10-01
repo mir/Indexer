@@ -15,11 +15,11 @@ import java.util.List;
  * Time: 4:33 PM
  * Porsche is the only car
  */
-public class MIndexer implements Indexer {
+public class FileIndexer implements Indexer {
 
     private Index index = new HashMapIndex();
 
-    public MIndexer(File inputFile) throws IOException {
+    public FileIndexer(File inputFile) throws IOException {
         FileTokenizer ft = new FileTokenizer(inputFile);
         ft.addTokensTo(index);
     }

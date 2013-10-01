@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import ru.maratyv.indexer.FileIndexer;
 import ru.maratyv.indexer.Indexer;
-import ru.maratyv.indexer.MIndexer;
 
 import java.io.*;
 
@@ -24,7 +24,7 @@ public class IndexerLoremTest {
 
     @BeforeClass
     public static void loadText() throws IOException {
-        mindexer = new MIndexer(new File("test_input.txt"));
+        mindexer = new FileIndexer(new File("test_input.txt"));
     }
 
     @Test
