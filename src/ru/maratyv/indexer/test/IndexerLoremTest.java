@@ -8,6 +8,7 @@ import org.junit.runners.JUnit4;
 import ru.maratyv.indexer.DerictoryIsNotSpecified;
 import ru.maratyv.indexer.FileIndexer;
 import ru.maratyv.indexer.Indexer;
+import ru.maratyv.indexer.index.Posting;
 
 import java.io.*;
 import java.util.Scanner;

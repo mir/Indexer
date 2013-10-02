@@ -1,10 +1,10 @@
 package ru.maratyv.indexer.tokenizers.test;
 
-import ru.maratyv.indexer.Posting;
+import ru.maratyv.indexer.index.Posting;
 import ru.maratyv.indexer.Token;
 import ru.maratyv.indexer.index.Index;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +30,7 @@ public class WordCounterIndex implements Index {
     }
 
     @Override
-    public List<Posting> get(String word) {
+    public Collection<Posting> get(String word) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

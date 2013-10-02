@@ -1,4 +1,4 @@
-package ru.maratyv.indexer;
+package ru.maratyv.indexer.index;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package ru.maratyv.indexer;
  * Time: 8:29 PM
  * Porsche is the only car
  */
-public class Posting {
+public class Posting implements Comparable<Posting>{
     private int frequency;
     public final String docID;
 
@@ -16,7 +16,7 @@ public class Posting {
         frequency = 1;
     }
 
-    public synchronized void incrementFrequency(){
+    synchronized void incrementFrequency(){
         frequency++;
     }
 
@@ -47,5 +47,10 @@ public class Posting {
     @Override
     public String toString() {
         return  docID + ":" + frequency;
+    }
+
+    @Override
+    public int compareTo(Posting o) {
+        return docID.compareTo(o.docID);
     }
 }

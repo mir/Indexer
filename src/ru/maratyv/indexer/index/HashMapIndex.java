@@ -1,12 +1,8 @@
 package ru.maratyv.indexer.index;
 
-import ru.maratyv.indexer.Posting;
 import ru.maratyv.indexer.Token;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedSet;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,23 +12,23 @@ import java.util.SortedSet;
  * Porsche is the only car
  */
 public class HashMapIndex implements Index {
-    private HashMap<String,List<Posting>> storage = new HashMap<String,List<Posting>>();
+    private Map<String,SortedSet<Posting>> storage = new HashMap<String,SortedSet<Posting>>();
 
     @Override
     public void add(Token token) {
         if (storage.containsKey(token.term)) {
-            List<Posting> postings = storage.get(token.term);
+            Collection<Posting> postings = storage.get(token.term);
             if (toAddPosting(postings,token.docID)) {
                 postings.add(new Posting(token.docID));
             }
         } else {
-            List<Posting> postings = new ArrayList<Posting>();
+            SortedSet<Posting> postings = new TreeSet<Posting>();
             postings.add(new Posting(token.docID));
             storage.put(token.term,postings);
         }
     }
 
-    private boolean toAddPosting(List<Posting> postings, String docID) {
+    private boolean toAddPosting(Collection<Posting> postings, String docID) {
         for (Posting posting:postings) {
             if (posting.docID.equals(docID)) {
                 posting.incrementFrequency();
@@ -43,7 +39,13 @@ public class HashMapIndex implements Index {
     }
 
     @Override
-    public List<Posting> get(String term) {
-        return storage.get(term);
+    public Collection<Posting> get(String term) {
+        SortedSet<Posting> postingSortedSet = storage.get(term);
+        if (postingSortedSet == null) {
+            return new ArrayList<Posting>(0);
+        }
+        List<Posting> postingList = new ArrayList<Posting>(postingSortedSet.size());
+        postingList.addAll(postingSortedSet);
+        return postingList;
     }
 }

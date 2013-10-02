@@ -43,8 +43,8 @@ public class HashMapIndexTest {
 
     @Test
     public void testNoElements(){
-        assertNull(index.get("Any term"));
+        assertTrue(index.get("Any term").isEmpty());
         index.add(new Token("1","Hello"));
-        assertNull(index.get(""));
+        assertTrue(index.get("").isEmpty());
     }
 }

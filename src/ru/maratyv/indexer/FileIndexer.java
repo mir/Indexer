@@ -2,12 +2,13 @@ package ru.maratyv.indexer;
 
 import ru.maratyv.indexer.index.HashMapIndex;
 import ru.maratyv.indexer.index.Index;
+import ru.maratyv.indexer.index.Posting;
 import ru.maratyv.indexer.tokenizers.FileTokenizer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,9 +31,9 @@ public class FileIndexer implements Indexer {
         }
     }
 
-    public List<Posting> find(String term) {
+    public Collection<Posting> find(String term) {
         if (term == null) return new ArrayList<Posting>(0);
-        List<Posting> found = index.get(term.toLowerCase());
+        Collection<Posting> found = index.get(term.toLowerCase());
         if (found == null) found = new ArrayList<Posting>(0);
         return found;
     }

@@ -1,6 +1,8 @@
 package ru.maratyv.indexer;
 
-import java.util.List;
+import ru.maratyv.indexer.index.Posting;
+
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,5 +12,5 @@ import java.util.List;
  * Porsche is the only car
  */
 public interface Indexer {
-    public List<Posting> find(String word);
+    public Collection<Posting> find(String word);
 }
