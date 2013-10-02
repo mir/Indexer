@@ -10,6 +10,7 @@ import ru.maratyv.indexer.FileIndexer;
 import ru.maratyv.indexer.Indexer;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,15 +23,33 @@ import java.io.*;
 public class IndexerLoremTest {
 
     private static Indexer indexer;
+    private static final File DIR_TO_INDEX = new File("test Docs");
 
     @BeforeClass
     public static void loadText() throws IOException, DerictoryIsNotSpecified {
-        indexer = new FileIndexer(new File("test Docs"));
+        indexer = new FileIndexer(DIR_TO_INDEX);
     }
 
     @Test
-    public void findLorem(){
+    public void findLorem() throws IOException {
+        // number of files containing lorem
         int found = indexer.find("lorem").size();
-        assertEquals(3,found);
+        int expected = 0;
+        for (File file:DIR_TO_INDEX.listFiles()) {
+            BufferedReader bf = new BufferedReader(new FileReader(file));
+            try {
+                String curLine = bf.readLine();
+                while (curLine != null) {
+                    if (curLine.toLowerCase().contains("lorem")) {
+                        expected++;
+                        break;
+                    }
+                    curLine = bf.readLine();
+                }
+            } finally {
+                bf.close();
+            }
+        }
+        assertEquals(expected,found);
     }
 }
