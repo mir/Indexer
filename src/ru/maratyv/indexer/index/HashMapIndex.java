@@ -3,6 +3,9 @@ package ru.maratyv.indexer.index;
 import ru.maratyv.indexer.Token;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,17 +15,17 @@ import java.util.*;
  * Porsche is the only car
  */
 public class HashMapIndex implements Index {
-    private Map<String,SortedSet<Posting>> storage = new HashMap<String,SortedSet<Posting>>();
+    private ConcurrentMap<String,SortedSet<Posting>> storage = new ConcurrentHashMap<String,SortedSet<Posting>>();
 
     @Override
-    public void add(Token token) {
+    public synchronized void add(Token token) {
         if (storage.containsKey(token.term)) {
             Collection<Posting> postings = storage.get(token.term);
             if (toAddPosting(postings,token.docID)) {
                 postings.add(new Posting(token.docID));
             }
         } else {
-            SortedSet<Posting> postings = new TreeSet<Posting>();
+            SortedSet<Posting> postings = new ConcurrentSkipListSet<Posting>();
             postings.add(new Posting(token.docID));
             storage.put(token.term,postings);
         }
@@ -44,7 +47,7 @@ public class HashMapIndex implements Index {
         if (postingSortedSet == null) {
             return new ArrayList<Posting>(0);
         }
-        List<Posting> postingList = new ArrayList<Posting>(postingSortedSet.size());
+        List<Posting> postingList = new ArrayList<Posting>();
         postingList.addAll(postingSortedSet);
         return postingList;
     }

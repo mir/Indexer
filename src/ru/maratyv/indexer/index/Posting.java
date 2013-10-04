@@ -6,6 +6,10 @@ package ru.maratyv.indexer.index;
  * Date: 10/1/13
  * Time: 8:29 PM
  * Porsche is the only car
+ *
+ * Effectively immutable object for any class outside index package.
+ * The only modifiable field it frequency, which is accessed only by synchronized methods.
+ * So it is Thread-safe
  */
 public class Posting implements Comparable<Posting>{
     private int frequency;
