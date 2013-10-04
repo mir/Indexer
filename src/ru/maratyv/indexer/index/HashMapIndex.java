@@ -19,24 +19,25 @@ public class HashMapIndex implements Index {
 
     @Override
     public synchronized void add(Token token) {
+        Posting postingToAdd = new Posting(token.docID);
         if (storage.containsKey(token.term)) {
             SortedSet<Posting> postings = storage.get(token.term);
-            if (toAddPosting(postings,token.docID)) {
-                postings.add(new Posting(token.docID));
+            if (toAddPosting(postings,postingToAdd)) {
+                postings.add(postingToAdd);
             }
         } else {
             SortedSet<Posting> postings = new ConcurrentSkipListSet<Posting>();
-            postings.add(new Posting(token.docID));
+            postings.add(postingToAdd);
             storage.put(token.term,postings);
         }
     }
 
-    private boolean toAddPosting(SortedSet<Posting> postings, String docID) {
-        SortedSet<Posting> postingsTail = postings.tailSet(new Posting(docID));
+    private boolean toAddPosting(SortedSet<Posting> postings, Posting postingToAdd) {
+        SortedSet<Posting> postingsTail = postings.tailSet(postingToAdd);
         if (postingsTail == null || postingsTail.isEmpty()) {
             return true;
         }
-        if (postingsTail.first().docID.equals(docID)) {
+        if (postingsTail.first().equals(postingToAdd)) {
             postingsTail.first().incrementFrequency();
             return false;
         }
