@@ -2,6 +2,8 @@ package ru.maratyv.indexer;
 
 import ru.maratyv.indexer.index.Posting;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -13,4 +15,11 @@ import java.util.Collection;
  */
 public interface Indexer {
     public Collection<Posting> find(String word);
+
+    /**
+     * Index file if it is not a directory.
+     * If inputFile is a directory index all files in this directory.
+     * @param inputFile
+     */
+    public void index(File inputFile) throws IOException, DerictoryIsNotSpecified;
 }

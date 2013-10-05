@@ -21,14 +21,11 @@ public class FileIndexer implements Indexer {
 
     private Index index = new HashMapIndex();
 
+    public FileIndexer() {
+    }
+
     public FileIndexer(File inputFile) throws IOException, DerictoryIsNotSpecified {
-        if (!inputFile.isDirectory()) {
-            throw new DerictoryIsNotSpecified();
-        }
-        for (File file:inputFile.listFiles()) {
-            FileTokenizer ft = new FileTokenizer(file);
-            ft.addTokensTo(index);
-        }
+        index(inputFile);
     }
 
     public Collection<Posting> find(String term) {
@@ -36,5 +33,19 @@ public class FileIndexer implements Indexer {
         Collection<Posting> found = index.get(term.toLowerCase());
         if (found == null) found = new ArrayList<Posting>(0);
         return found;
+    }
+
+    @Override
+    public void index(File inputFile) throws IOException, DerictoryIsNotSpecified {
+        if (inputFile.isFile()) {
+            index(inputFile);
+        } else if (inputFile.isDirectory()) {
+            for (File file:inputFile.listFiles()) {
+                FileTokenizer ft = new FileTokenizer(file);
+                ft.addTokensTo(index);
+            }
+        } else {
+            throw new DerictoryIsNotSpecified();
+        }
     }
 }
