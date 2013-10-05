@@ -22,7 +22,7 @@ public class StringIndex implements Index {
         if (sb.length() != 0) {
             sb.append(" ");
         }
-        sb.append(token.term + ":" + token.docID);
+        sb.append(token.term + ":<" + token.docID + "," + token.position + ">");
     }
 
     @Override

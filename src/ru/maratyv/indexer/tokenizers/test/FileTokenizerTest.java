@@ -94,7 +94,9 @@ public class FileTokenizerTest {
         StringIndex stringIndex = new StringIndex();
         tokenizer.addTokensTo(stringIndex);
         //test
-        assertEquals("0:"+ TEMP_OUTPUT_FILE_NAME + " 2:" +TEMP_OUTPUT_FILE_NAME + " 4:" + TEMP_OUTPUT_FILE_NAME,
+        assertEquals("0:<"+ TEMP_OUTPUT_FILE_NAME + "" +
+                ",0> 2:<" +TEMP_OUTPUT_FILE_NAME + "" +
+                ",2> 4:<" + TEMP_OUTPUT_FILE_NAME + ",4>",
                 stringIndex.toString());
     }
 }

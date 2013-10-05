@@ -46,7 +46,7 @@ public class FileTokenizer implements Tokenizer{
                 if (word.length() != 0) {
                     index.add(new Token(docID,
                             word.toString(),
-                            offset - word.length()));
+                            offset + length - word.length()));
                 }
                 offset += length;
                 currentLine = bf.readLine();
