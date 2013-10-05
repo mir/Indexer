@@ -61,11 +61,11 @@ public class FileIndexer implements Indexer {
     @Override
     public void index(File inputFile) throws IOException, DerictoryIsNotSpecified {
         if (inputFile.isFile()) {
-            index(inputFile);
+            FileTokenizer ft = new FileTokenizer(inputFile);
+            ft.addTokensTo(index);
         } else if (inputFile.isDirectory()) {
             for (File file:inputFile.listFiles()) {
-                FileTokenizer ft = new FileTokenizer(file);
-                ft.addTokensTo(index);
+                index(file);
             }
         } else {
             throw new DerictoryIsNotSpecified();
