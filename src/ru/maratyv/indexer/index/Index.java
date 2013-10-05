@@ -3,6 +3,7 @@ package ru.maratyv.indexer.index;
 import ru.maratyv.indexer.Token;
 
 import java.util.Collection;
+import java.util.SortedSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,5 +14,5 @@ import java.util.Collection;
  */
 public interface Index {
     public void add(Token token);
-    public Collection<Posting> get(String word);
+    public SortedSet<Posting> get(String word);
 }

@@ -7,8 +7,7 @@ import ru.maratyv.indexer.tokenizers.FileTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,9 +20,6 @@ public class FileIndexer implements Indexer {
 
     private Index index = new HashMapIndex();
 
-    public FileIndexer() {
-    }
-
     public FileIndexer(File inputFile) throws IOException, DerictoryIsNotSpecified {
         index(inputFile);
     }
@@ -33,6 +29,33 @@ public class FileIndexer implements Indexer {
         Collection<Posting> found = index.get(term.toLowerCase());
         if (found == null) found = new ArrayList<Posting>(0);
         return found;
+    }
+
+    @Override
+    public Collection<Posting> findBoth(String word1, String word2) {
+        SortedSet<Posting> postingsWord1 = index.get(word1);
+        SortedSet<Posting> postingsWord2 = index.get(word2);
+        List<Posting> intersection = new ArrayList<Posting>();
+        Iterator<Posting> iteratorWord2 = postingsWord2.iterator();
+        Posting word2Posting;
+        if (iteratorWord2.hasNext()) {
+            word2Posting = iteratorWord2.next();
+        } else {
+            return intersection;
+        }
+        for (Posting word1Posting:postingsWord1) {
+            while (word1Posting.compareTo(word2Posting) > 0) {
+                if (iteratorWord2.hasNext()) {
+                    word2Posting = iteratorWord2.next();
+                } else {
+                    return intersection;
+                }
+            }
+            if (word1Posting.compareTo(word2Posting) == 0) {
+                intersection.add(word1Posting);
+            }
+        }
+        return intersection;
     }
 
     @Override

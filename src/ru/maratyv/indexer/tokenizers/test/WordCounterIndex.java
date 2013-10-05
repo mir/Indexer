@@ -5,6 +5,7 @@ import ru.maratyv.indexer.Token;
 import ru.maratyv.indexer.index.Index;
 
 import java.util.Collection;
+import java.util.SortedSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +31,7 @@ public class WordCounterIndex implements Index {
     }
 
     @Override
-    public Collection<Posting> get(String word) {
+    public SortedSet<Posting> get(String word) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

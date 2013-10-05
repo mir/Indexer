@@ -11,6 +11,7 @@ import ru.maratyv.indexer.Indexer;
 import ru.maratyv.indexer.index.Posting;
 
 import java.io.*;
+import java.util.Collection;
 import java.util.Scanner;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Scanner;
  * Porsche is the only car
  */
 @RunWith(JUnit4.class)
-public class IndexerLoremTest {
+public class IndexerTest {
 
     private static Indexer indexer;
     private static final File DIR_TO_INDEX = new File("test Docs");
@@ -34,14 +35,27 @@ public class IndexerLoremTest {
     @Test
     public void findLorem() throws IOException {
         // number of files containing lorem
-        int found = indexer.find("lorem").size();
+        int actual = indexer.find("lorem").size();
+        int expected = countFilesWithWords("lorem","lorem");
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void findBoth() throws IOException {
+        int actual = indexer.findBoth("lorem", "dolor").size();
+        int expected = countFilesWithWords("lorem","dolor");
+        assertEquals(expected,actual);
+    }
+
+    private int countFilesWithWords(String word1, String word2) throws IOException {
         int expected = 0;
         for (File file:DIR_TO_INDEX.listFiles()) {
             BufferedReader bf = new BufferedReader(new FileReader(file));
             try {
                 String curLine = bf.readLine();
                 while (curLine != null) {
-                    if (curLine.toLowerCase().contains("lorem")) {
+                    if (curLine.toLowerCase().contains(word1) &&
+                            curLine.toLowerCase().contains(word2)) {
                         expected++;
                         break;
                     }
@@ -51,6 +65,6 @@ public class IndexerLoremTest {
                 bf.close();
             }
         }
-        assertEquals(expected,found);
+        return expected;
     }
 }

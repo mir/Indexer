@@ -15,6 +15,7 @@ import java.util.Collection;
  */
 public interface Indexer {
     public Collection<Posting> find(String word);
+    public Collection<Posting> findBoth(String word1, String word2);
 
     /**
      * Index file if it is not a directory.

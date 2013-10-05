@@ -45,12 +45,12 @@ public class HashMapIndex implements Index {
     }
 
     @Override
-    public Collection<Posting> get(String term) {
+    public SortedSet<Posting> get(String term) {
         SortedSet<Posting> postingSortedSet = storage.get(term);
         if (postingSortedSet == null) {
-            return new ArrayList<Posting>(0);
+            return new TreeSet<Posting>();
         }
-        List<Posting> postingList = new ArrayList<Posting>();
+        SortedSet<Posting> postingList = new TreeSet<Posting>();
         postingList.addAll(postingSortedSet);
         return postingList;
     }
