@@ -10,15 +10,17 @@ package ru.maratyv.indexer;
 public class Token {
     public final String docID;
     public final String term;
+    public final Integer position;
 
-    public Token(String docID, String term) {
+    public Token(String docID, String term, Integer position) {
         this.docID = docID;
         this.term = term;
+        this.position = position;
     }
 
 
     @Override
     public String toString() {
-        return term + ":" + docID;
+        return term + ": docID = " + docID + ", pos = " + position;
     }
 }

@@ -17,7 +17,6 @@ public class FileTokenizer implements Tokenizer{
 
     private BufferedReader bf;
     private final String docID;
-    private final String DELIMITER_PATTERN = "\\W+";
 
     public FileTokenizer(File inputFile) throws IOException {
         docID = inputFile.getName();
@@ -26,14 +25,30 @@ public class FileTokenizer implements Tokenizer{
 
     public void addTokensTo(Index index) throws IOException {
         String currentLine = bf.readLine();
+        int offset = 0;
         try {
             while (currentLine != null) {
-                Scanner sc = new Scanner(currentLine);
-                sc.useDelimiter(DELIMITER_PATTERN);
-                while (sc.hasNext()) {
-                    Token token = new Token(docID,sc.next().toLowerCase());
-                    index.add(token);
+                StringBuilder word = new StringBuilder("");
+                int length = currentLine.length();
+                for (int i = 0; i < length; i++) {
+                    char curCharacter = currentLine.charAt(i);
+                    if (Character.isLetterOrDigit(curCharacter)) {
+                        word.append(curCharacter);
+                    } else {
+                        if (word.length() != 0) {
+                            index.add(new Token(docID,
+                                                word.toString().toLowerCase(),
+                                                offset + i - word.length()));
+                            word = new StringBuilder("");
+                        }
+                    }
                 }
+                if (word.length() != 0) {
+                    index.add(new Token(docID,
+                            word.toString(),
+                            offset - word.length()));
+                }
+                offset += length;
                 currentLine = bf.readLine();
             }
         } finally {

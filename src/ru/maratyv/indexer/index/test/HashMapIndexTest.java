@@ -26,16 +26,16 @@ public class HashMapIndexTest {
 
     @Test
     public void testTwoTokens() throws Exception {
-        index.add(new Token("1","hello"));
-        index.add(new Token("1","hello"));
-        index.add(new Token("1","hello"));
-        index.add(new Token("2","hello"));
-        index.add(new Token("1", "world"));
-        index.add(new Token("1", "world"));
-        index.add(new Token("2","world"));
-        index.add(new Token("3","world"));
-        index.add(new Token("1","bla"));
-        index.add(new Token("3","bla"));
+        index.add(new Token("1","hello",0));
+        index.add(new Token("1","hello","hello ".length()));
+        index.add(new Token("1","hello","hello hello ".length()));
+        index.add(new Token("2","hello",0));
+        index.add(new Token("1", "world","hello hello hello ".length()));
+        index.add(new Token("1", "world","hello hello hello world ".length()));
+        index.add(new Token("2","world", "hello ".length()));
+        index.add(new Token("3","world",0));
+        index.add(new Token("1","bla","hello hello hello world world ".length()));
+        index.add(new Token("3","bla","hello world ".length()));
         assertEquals(3,index.get("world").size());
         assertEquals(2,index.get("hello").size());
         assertEquals(2,index.get("bla").size());
@@ -44,7 +44,7 @@ public class HashMapIndexTest {
     @Test
     public void testNoElements(){
         assertTrue(index.get("Any term").isEmpty());
-        index.add(new Token("1","Hello"));
+        index.add(new Token("1","Hello",1));
         assertTrue(index.get("").isEmpty());
     }
 }

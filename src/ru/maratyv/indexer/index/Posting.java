@@ -1,5 +1,8 @@
 package ru.maratyv.indexer.index;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mir
@@ -13,19 +16,29 @@ package ru.maratyv.indexer.index;
  */
 public class Posting implements Comparable<Posting>{
     private int frequency;
+    private List<Integer> positions;
     public final String docID;
 
-    public Posting(String docID) {
+    public Posting(String docID, Integer position) {
         this.docID = docID;
         frequency = 1;
+        positions = new ArrayList<Integer>();
+        positions.add(position);
     }
 
-    synchronized void incrementFrequency(){
+    synchronized void add(Integer position) {
+        positions.add(position);
         frequency++;
     }
 
     public synchronized int getFrequency(){
         return this.frequency;
+    }
+
+    public synchronized List<Integer> getPositions(){
+        List<Integer> positionsCopy = new ArrayList<Integer>(positions.size());
+        positionsCopy.addAll(positions);
+        return positionsCopy;
     }
 
     @Override

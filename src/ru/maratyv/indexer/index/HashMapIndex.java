@@ -19,7 +19,7 @@ public class HashMapIndex implements Index {
 
     @Override
     public synchronized void add(Token token) {
-        Posting postingToAdd = new Posting(token.docID);
+        Posting postingToAdd = new Posting(token.docID,token.position);
         if (storage.containsKey(token.term)) {
             SortedSet<Posting> postings = storage.get(token.term);
             if (toAddPosting(postings,postingToAdd)) {
@@ -38,7 +38,7 @@ public class HashMapIndex implements Index {
             return true;
         }
         if (postingsTail.first().equals(postingToAdd)) {
-            postingsTail.first().incrementFrequency();
+            postingsTail.first().add(postingToAdd.getPositions().get(0));
             return false;
         }
         return true;
