@@ -31,10 +31,7 @@ public class FileIndexer implements Indexer {
         return found;
     }
 
-    @Override
-    public Collection<Posting> findBoth(String word1, String word2) {
-        SortedSet<Posting> postingsWord1 = index.get(word1);
-        SortedSet<Posting> postingsWord2 = index.get(word2);
+    private Collection<Posting> intersect(SortedSet<Posting> postingsWord1,SortedSet<Posting> postingsWord2) {
         List<Posting> intersection = new ArrayList<Posting>();
         Iterator<Posting> iteratorWord2 = postingsWord2.iterator();
         Posting word2Posting;
@@ -56,6 +53,13 @@ public class FileIndexer implements Indexer {
             }
         }
         return intersection;
+    }
+
+    @Override
+    public Collection<Posting> findBoth(String word1, String word2) {
+        SortedSet<Posting> postingsWord1 = index.get(word1);
+        SortedSet<Posting> postingsWord2 = index.get(word2);
+        return intersect(postingsWord1,postingsWord2);
     }
 
     @Override
