@@ -35,7 +35,8 @@ public class IndexerTest {
 
     @Test
     public void findLorem() throws IOException {
-        // number of files containing lorem tratatat
+        // number of files containing lorem
+        //new commment
         int actual = indexer.find("lorem").size();
         int expected = countFilesWithWords("lorem","lorem");
         assertEquals(expected,actual);
