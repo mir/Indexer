@@ -38,6 +38,7 @@ public class IndexerTest {
         // number of files containing lorem
         //new commment
         //Commit 1
+        //Commit 2
         int actual = indexer.find("lorem").size();
         int expected = countFilesWithWords("lorem","lorem");
         assertEquals(expected,actual);
