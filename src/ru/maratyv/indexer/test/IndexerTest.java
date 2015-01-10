@@ -39,6 +39,7 @@ public class IndexerTest {
         //new commment
         //Commit 1
         //Commit 2
+        //Commit 3
         int actual = indexer.find("lorem").size();
         int expected = countFilesWithWords("lorem","lorem");
         assertEquals(expected,actual);
