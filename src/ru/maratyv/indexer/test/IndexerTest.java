@@ -24,10 +24,6 @@ import java.util.Scanner;
 @RunWith(JUnit4.class)
 public class IndexerTest {
 
-    //Oppa hotfix comment 1
-    //Oppa hotfix comment 2
-    //Oppa hotfix comment 3
-    //Oppa hotfix comment 4c5
     private static Indexer indexer;
     private static final File DIR_TO_INDEX = new File("test Docs");
 
