@@ -25,6 +25,7 @@ import java.util.Scanner;
 public class IndexerTest {
 
     //wefwef
+    //tratata
     private static Indexer indexer;
     private static final File DIR_TO_INDEX = new File("test Docs");
 
