@@ -24,6 +24,7 @@ import java.util.Scanner;
 @RunWith(JUnit4.class)
 public class IndexerTest {
 
+    //wefwef
     private static Indexer indexer;
     private static final File DIR_TO_INDEX = new File("test Docs");
 
